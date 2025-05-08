@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigation } from '@react-navigation/native';
-import { View, Text, TouchableOpacity, TextInput, ScrollView, StyleSheet, Image, Modal, Pressable, Keyboard, KeyboardAvoidingView, Dimensions } from 'react-native';
+import { View, Text, TouchableOpacity, TextInput, ScrollView, StyleSheet, Image, Modal, Pressable, Keyboard, KeyboardAvoidingView, Dimensions, Alert } from 'react-native';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import { Platform } from 'react-native';
 import { router } from 'expo-router';
@@ -15,6 +15,7 @@ export default function ReportPage() {
     const [date, setDate] = useState(new Date());
     const [showDate, setShowDate] = useState(false);
     const [showTime, setShowTime] = useState(false);
+    const [school, setSchool] = useState('');
     const [location, setLocation] = useState('');
     const [description, setDescription] = useState('');
     const [bullyTypes, setBullyType] = useState('');
@@ -29,6 +30,11 @@ export default function ReportPage() {
     const selectBullyType = (type) => {
         setBullyType(type === bullyTypes ? '' : type); // Optional: deselect if clicked again
     };
+
+    const selectSchool = (type) => {
+        setSchool(type === school ? '' : type); // Optional: deselect if clicked again
+    };
+
 
 
     const onChange = (event, selectedDate) => {
@@ -66,16 +72,22 @@ export default function ReportPage() {
     };
 
     const handleSubmit = async () => {
-        if (!role || !date || !location || !bullyTypes || !description) {
+        if (!role || !date || !school || !location || !bullyTypes || !description) {
             alert('Sila pastikan semua maklumat diisi sebelum menghantar laporan!');
             return; // Stop further execution
         }
 
         const payload = {
+            targetSheet: "Sheet1",
             role,
-            date: date.toLocaleDateString(),       // Example: '4/30/2025'
-            time: date.toLocaleTimeString(),       // Example: '3:45:00 PM'
-            location,
+            date: date.toLocaleDateString('en-GB', {
+                day: 'numeric',
+                month: 'long',
+                year: 'numeric'
+              }),    
+            time: date.toLocaleTimeString(),       
+            school,
+            location: location,
             bullyType: bullyTypes,
             description
         };
@@ -96,10 +108,10 @@ export default function ReportPage() {
 
             const json = await response.json();
             if (json.status === 'success') {
-                alert('Laporan berjaya dihantar!');
-                router.push('/mainPage');
+                Alert.alert('Terima kasih', `Laporan berjaya dihantar.`);
+                router.replace('/mainPage');
             } else {
-                alert('Ralat semasa menghantar laporan');
+                Alert.alert('Kegagalan sistem', `Ralat semasa menghantar laporan`);
             }
         } catch (error) {
             alert('Gagal menghantar laporan: ' + error.message);
@@ -225,6 +237,23 @@ export default function ReportPage() {
 
                 <View style={styles.divider} />
 
+                <Text style={styles.label}>Sekolah</Text>
+                <Text style={styles.subLabel}>(Pilih sekolah anda)</Text>
+                {['SMK Indera Mahkota 2'].map(type => (
+                    <TouchableOpacity
+                        key={type}
+                        style={[
+                            styles.school,
+                            school === type && styles.selectedType
+                        ]}
+                        onPress={() => selectSchool(type)}
+                    >
+                        <Text>{type}</Text>
+                    </TouchableOpacity>
+                ))}
+
+                <View style={styles.divider} />
+
                 <Text style={styles.label}>Di manakah kejadian ini berlaku?</Text>
                 <TextInput
                     style={styles.textArea}
@@ -239,7 +268,7 @@ export default function ReportPage() {
 
                 <Text style={styles.label}>Jenis Aktiviti Pembulian</Text>
                 <Text style={styles.subLabel}>(Pilih yang berkaitan)</Text>
-                {['Buli fizikal', 'Buli lisan', 'Buli siber', 'Buli sosial', 'Saya tidak pasti'].map(type => (
+                {['Buli fizikal', 'Buli verbal', 'Buli siber', 'Buli sosial','Buli seksual', 'Saya tidak pasti'].map(type => (
                     <TouchableOpacity
                         key={type}
                         style={[
@@ -433,6 +462,13 @@ const styles = StyleSheet.create({
         textAlignVertical: 'top'
     },
     bullyType: {
+        backgroundColor: '#f4f4f4',
+        padding: 12,
+        borderRadius: 8,
+        marginVertical: 4
+    },
+
+    school: {
         backgroundColor: '#f4f4f4',
         padding: 12,
         borderRadius: 8,

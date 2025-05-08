@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, ScrollView } from 'react-native';
+import { View, Text, ScrollView,Image } from 'react-native';
 import { FontAwesome } from '@expo/vector-icons';
 
 export default function Info2_TandaMangsaBuli() {
@@ -7,17 +7,26 @@ export default function Info2_TandaMangsaBuli() {
     <View style={{ marginBottom: 20 }}>
       <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: 6 }}>
         <FontAwesome name={icon} size={18} color="#007AFF" style={{ marginRight: 10 }} />
-        <Text style={{ fontSize: 16, fontWeight: 'bold', color: '#002B53' }}>{title}</Text>
+        <Text style={{ fontSize: 16, fontWeight: 'bold', color: '#002B53', width:'85%' }}>{title}</Text>
       </View>
-      <Text style={{ fontSize: 15, color: '#444', paddingLeft: 28 }}>
+      <Text style={{ fontSize: 15, color: '#444', paddingLeft: 28, width:'90%' }}>
         {description}
       </Text>
     </View>
   );
 
   return (
-    <ScrollView style={{ padding: 20 , paddingTop: 0}}>
-
+    <ScrollView style={{ padding: 0 , paddingTop: 0}}>
+<Image
+        source={require('../../assets/saksi.png')}
+        style={{
+          width: 200,
+          height: 120,
+          resizeMode: 'contain',
+          alignSelf: 'center',
+          marginBottom: 16,
+        }}
+      />
       <Text style={{ fontSize: 16, marginBottom: 14, color: '#333' }}>
         Tanda-tanda mangsa buli boleh dilihat dalam pelbagai bentuk, termasuk emosi, fizikal, kesihatan, dan akademik.
       </Text>

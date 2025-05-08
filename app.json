@@ -1,0 +1,12 @@
+{
+  "expo": {
+    "extra": {
+      "eas": {
+        "projectId": "95351f40-7432-4e3f-b1b8-9310d65c9662"
+      }
+    },
+    "android": {
+      "package": "com.jairy.buddyguard"
+    }
+  }
+}

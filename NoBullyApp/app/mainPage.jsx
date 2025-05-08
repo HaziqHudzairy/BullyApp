@@ -33,14 +33,14 @@ const MainPage = () => {
     <ScrollView style={styles.container}>
       {/* Top Header */}
       <View style={styles.header}>
-        <Image source={require('./assets/school-logo.png')} style={styles.schoolLogo} />
+        <Image source={require('./assets/BuddyGuardLogo.png')} style={styles.schoolLogo} />
         <View style={styles.headerContent}>
-          <Text style={styles.appTitle}>Aplikasi untuk</Text>
-          <Text style={styles.schoolName}>SMK Indera Mahkota 2</Text>
+          <Text style={styles.appTitle}>Aplikasi</Text>
+          <Text style={styles.schoolName}>BuddyGuard</Text>
         </View>
-        <TouchableOpacity style={styles.settingsIcon}>
+        {/* <TouchableOpacity style={styles.settingsIcon}>
           <Text style={{ fontSize: 20 }}>⚙️</Text>
-        </TouchableOpacity>
+        </TouchableOpacity> */}
       </View>
 
       {/* Cards */}
@@ -53,7 +53,15 @@ const MainPage = () => {
           <Image source={image1} style={styles.cardImage1} />
         </TouchableOpacity>
 
-        <View style={styles.row}>
+        <TouchableOpacity style={styles.largeCard} onPress={() => router.push('/bookingPage')}>
+          <View style={styles.cardTextContainer}>
+            <Text style={styles.cardTitle1}>Temu Janji</Text>
+            <Text style={[styles.cardText1, { width: '90%' }]}>Tempah sesi dengan kaunselor pilihan</Text>
+          </View>
+          <Image source={image2} style={styles.cardImage2} />
+        </TouchableOpacity>
+
+        {/* <View style={styles.row}>
           <TouchableOpacity style={styles.smallCard} onPress={() => router.push('/bookingPage')}>
             <Image source={image2} style={styles.cardImage2} />
             <View style={styles.cardTextContainer2}>
@@ -69,7 +77,7 @@ const MainPage = () => {
               <Text style={styles.cardText2}>Klik untuk info lebih lanjut</Text>
             </View>
           </TouchableOpacity>
-        </View>
+        </View> */}
       </View>
 
       {/* Carta Organisasi */}
@@ -79,21 +87,29 @@ const MainPage = () => {
           <Image source={require('./assets/school-logo.png')} style={styles.orgLogo} />
         </View> */}
         <Text style={styles.sectionTitle}>Info Berkenaan Buli</Text>
-        <ScrollView showsVerticalScrollIndicator={true} style={styles.infoSection} nestedScrollEnabled={true}>
+        <View style={styles.divider} />
+        <ScrollView
+          horizontal={true}
+          showsHorizontalScrollIndicator={false}
+          style={styles.infoSection}
+          contentContainerStyle={{ paddingHorizontal: 16 }}
+        >
           {[
-            { title: 'Maksud Buli', icon: 'info-circle' },
-            { title: 'Jenis-jenis Buli', icon: 'list' },
-            { title: 'Tanda-tanda Mangsa Buli', icon: 'exclamation-triangle' },
-            { title: 'Tindakan yang Perlu Diambil', icon: 'hand-paper-o' },
-            { title: 'Kesan-kesan Buli', icon: 'heartbeat' },
-            { title: 'Undang-undang Kes Buli', icon: 'gavel' },
-            { title: 'Peranan Aplikasi Anti Buli', icon: 'mobile' },
+            { title: 'Maksud Buli', icon: 'info-circle', image: require('./assets/maksud.png') },
+            { title: 'Jenis-jenis Buli', icon: 'list', image: require('./assets/jenis.png') },
+            { title: 'Tanda-tanda Mangsa Buli', icon: 'exclamation-triangle', image: require('./assets/tanda.png') },
+            { title: 'Tindakan yang Perlu Diambil', icon: 'hand-paper-o', image: require('./assets/tindakan.png') },
+            { title: 'Kesan-kesan Buli', icon: 'heartbeat', image: require('./assets/kesan.png') },
+            { title: 'Undang-undang Kes Buli', icon: 'gavel', image: require('./assets/undang2.png') },
+            { title: 'Peranan Aplikasi Anti Buli', icon: 'mobile', image: require('./assets/aplikasi.png') },
           ].map((item, index) => (
             <View key={index}>
+              
               <TouchableOpacity style={styles.infoCard} onPress={() => setVisibleModalIndex(index)}>
-                <FontAwesome name={item.icon} size={40} color="#002B53" style={styles.infoCardIcon} />
+                <Image source={item.image} style={styles.infoCardImage} />
                 <Text style={styles.infoCardText}>{item.title}</Text>
               </TouchableOpacity>
+              
 
               {visibleModalIndex === index && (
                 <Modal
@@ -110,7 +126,7 @@ const MainPage = () => {
                   }}>
                     <View style={{
                       backgroundColor: '#fff',
-                      padding: 20,
+                      padding: 35,
                       borderRadius: 10,
                       width: '90%',
                       maxHeight: '90%',
@@ -161,19 +177,23 @@ const MainPage = () => {
             </View>
           ))}
         </ScrollView>
+        <View style={styles.divider2} />
+
 
         <View style={styles.scrollHint}>
-          <Text style={styles.scrollHintText}>geser untuk lebih info</Text>
-          <View style={styles.iconWrapper}>
+          <Text style={styles.scrollHintText}>© 2025 BuddyGuard</Text>
+          {/* <View style={styles.iconWrapper}>
             <FontAwesome5 name="chevron-down" size={16} color="#000" />
-          </View>
+          </View> */}
         </View>
 
       </View>
 
     </ScrollView>
+    
   );
 };
+
 
 
 
@@ -203,7 +223,7 @@ const styles = StyleSheet.create({
   },
   schoolName: {
     color: '#fff',
-    fontSize: isSmallPhone ? 18 : 20,
+    fontSize: isSmallPhone ? 20 : 22,
     fontWeight: 'bold',
   },
   schoolLogo: {
@@ -222,6 +242,7 @@ const styles = StyleSheet.create({
   cardContainer: {
     backgroundColor: '#002B53',
     padding: 30,
+    marginBottom: -12,
   },
   largeCard: {
     backgroundColor: '#fff',
@@ -310,7 +331,7 @@ const styles = StyleSheet.create({
   sectionTitle: {
     fontWeight: 'bold',
     fontSize: isSmallPhone ? 20 : 22,
-    marginBottom: 10,
+    marginBottom: 0,
   },
   orgBox: {
     backgroundColor: '#F0F0F0',
@@ -337,35 +358,54 @@ const styles = StyleSheet.create({
   infoSection: {
     marginTop: 20,
     paddingTop: 10,
-    paddingHorizontal: 16,
-    height: 400,
+    height: 280,
   },
+
   infoCard: {
-    flexDirection: 'row',
-    alignItems: 'center',
+    width: 180,
+    height: 200,
     backgroundColor: '#fff',
-    padding: 12,
-    marginBottom: 16,
-    borderRadius: 10,
-    elevation: 3,
+    borderRadius: 12,
+    marginRight: 16,
+    alignItems: 'center',
+    paddingVertical: 10,
+    elevation: 5,
     shadowColor: '#000',
     shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.2,
+    shadowOpacity: 0.25,
     shadowRadius: 4,
+    position: 'relative',
   },
+
+
+  iconTextRow: {
+    position: 'absolute',
+    bottom: 25,
+    left: 5,
+    right: 0,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    paddingHorizontal: 10,
+  },
+
   infoCardIcon: {
-    width: 50,
+    width: 30,
     textAlign: 'center',
-    marginRight: 12,
+    marginRight: 5,
   },
 
   infoCardImage: {
-    width: 60,
-    height: 60,
+    marginTop: 15,
+    width: 150,
+    height: 100,
     resizeMode: 'contain',
-    marginRight: 12,
   },
   infoCardText: {
+    paddingLeft: 10,
+    paddingRight: 10,
+    marginTop: 20,
+    textAlign: 'center',
     fontSize: 15,
     color: '#002B53',
     fontWeight: 'bold',
@@ -374,11 +414,13 @@ const styles = StyleSheet.create({
   },
 
   scrollHint: {
+    height: 100,
     alignItems: 'center',
     marginTop: 5,
   },
 
   scrollHintText: {
+    marginTop: 50,
     fontSize: 12,
     color: '#666',
   },
@@ -411,5 +453,16 @@ const styles = StyleSheet.create({
     marginLeft: 10, // spacing between icon and text
   },
 
-
+  divider: {
+    height: 1,
+    backgroundColor: '#e2e8f0',
+    marginVertical: 20,
+    marginBottom: -15,
+  },
+  divider2: {
+    height: 1,
+    backgroundColor: '#e2e8f0',
+    marginVertical: -50,
+    marginBottom: -15,
+  },
 });
